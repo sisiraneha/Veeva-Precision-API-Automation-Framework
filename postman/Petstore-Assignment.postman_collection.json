@@ -1,0 +1,111 @@
+{
+  "info": {
+    "name": "Precision Petstore Assignment",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Assignment 1 - findByStatus",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/pet/findByStatus?status=available",
+          "host": ["{{url}}"],
+          "path": ["pet", "findByStatus"],
+          "query": [{ "key": "status", "value": "available" }]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": ["pm.test('Status code is 200', function () {", "    pm.response.to.have.status(200);", "});"],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Assignment 2 - POST pet",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": 0,\n  \"name\": \"PostmanPet\",\n  \"photoUrls\": [\"https://example.com/p.png\"],\n  \"status\": \"available\"\n}"
+        },
+        "url": "{{url}}/pet"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Response contains pet name', function () {",
+              "    pm.expect(pm.response.text()).to.include('PostmanPet');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Assignment 3a - GET valid pet (use existing id)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{url}}/pet/1"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": ["pm.test('200 OK', function () { pm.response.to.have.status(200); });"],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Assignment 3b - GET pet not found",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{url}}/pet/999999999999"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": ["pm.test('404 Not Found', function () { pm.response.to.have.status(404); });"],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Assignment 3c - POST empty body",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "" },
+        "url": "{{url}}/pet"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('400 or 405 for invalid body', function () {",
+              "    pm.expect([400, 405, 415]).to.include(pm.response.code);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    }
+  ]
+}
