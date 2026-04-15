@@ -2,3 +2,8 @@ target/
 .idea/
 *.iml
 .DS_Store
+
+# Do not publish internal docs/plans
+plan/
+TEAM_ROLES.md
+USER_GUIDE.md
